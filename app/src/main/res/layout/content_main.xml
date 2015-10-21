@@ -7,7 +7,17 @@
     tools:showIn="@layout/activity_main" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context=".MainActivity">
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin" android:text="@string/large_text" />
+    <!--<TextView-->
+        <!--android:id="@+id/text_empty"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="@dimen/text_margin"-->
+        <!--android:text="@string/large_text" />-->
+
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </GridView>
 
 </android.support.v4.widget.NestedScrollView>
