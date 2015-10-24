@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">@color/redacto_black</color>
+    <color name="colorPrimaryDark">#ff000000</color>
+    <color name="colorAccent">@color/redacto_green</color>
+
+    <color name="gray_transparent">#aae2e2e2</color>
+    <color name="orange">#ffff9800</color>
+    <color name="white">#ffffffff</color>
+    <color name="gray_light">#ffeeeeee</color>
+
+    <color name="redacto_green">#ff4caf50</color>
+    <color name="redacto_black">#ff2e2e2e</color>
+    <color name="black_transparent">#cc000000</color>
 </resources>
