@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.thunsaker.redacto"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -40,4 +40,5 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'com.jakewharton.rxbinding:rxbinding:0.2.0'
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.github.phajduk:rxfileobserver:0.1.0'
 }

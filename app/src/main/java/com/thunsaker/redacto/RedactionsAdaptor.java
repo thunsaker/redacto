@@ -2,6 +2,7 @@ package com.thunsaker.redacto;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.thunsaker.redacto.models.Redaction;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -50,9 +52,10 @@ public class RedactionsAdaptor extends RecyclerView.Adapter<RedactionsAdaptor.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Redaction redaction = mRedactions.get(position);
         Picasso mPicasso = Picasso.with(mContext);
-        mPicasso.load(redaction.ImageUri)
+        mPicasso.load("file:" + redaction.ImageFile.getPath())
                 .placeholder(R.drawable.redacto_placeholder)
                 .into(holder.imageView);
+        
         // Date with Short Month an Year
         dateFormatWithYear = new SimpleDateFormat("dd-MMM", Locale.getDefault());
         holder.textViewDate.setText(dateFormatWithYear.format(redaction.DateCreated));

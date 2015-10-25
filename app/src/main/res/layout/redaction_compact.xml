@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:scaleType="fitCenter"
         android:padding="8dp"
-        android:src="@drawable/redacto_placeholder_sm"
         android:contentDescription="@string/redaction"/>
     <TextView
         android:id="@+id/textViewRedactionDate"
