@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i < 7; i++) {
             testRedaction = new Redaction();
             Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.SECOND, i * (i % 2 == 0 ? 1 : -1) + 86400);
+            calendar.add(Calendar.SECOND, -1 * (i * 86400));
             testRedaction.DateCreated = calendar.getTime();
             testRedaction.SourceUrl =
                     i % 3 == 0
