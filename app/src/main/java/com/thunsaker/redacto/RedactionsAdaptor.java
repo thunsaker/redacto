@@ -13,7 +13,7 @@ import com.thunsaker.redacto.app.RedactoApp;
 import com.thunsaker.redacto.models.Redaction;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -22,11 +22,11 @@ public class RedactionsAdaptor extends RecyclerView.Adapter<RedactionsAdaptor.Vi
 
     @Inject Picasso mPicasso;
 
-    private ArrayList<Redaction> mRedactions;
+    private List<Redaction> mRedactions;
 
     static SimpleDateFormat dateFormatWithYear;
 
-    public RedactionsAdaptor(Context context, ArrayList<Redaction> redactions) {
+    public RedactionsAdaptor(Context context, List<Redaction> redactions) {
         mRedactions = redactions;
         RedactoApp.getComponent(context).inject(this);
     }
@@ -68,6 +68,16 @@ public class RedactionsAdaptor extends RecyclerView.Adapter<RedactionsAdaptor.Vi
     @Override
     public int getItemCount() {
         return mRedactions.size();
+    }
+
+    public void clear() {
+        mRedactions.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<Redaction> redactions) {
+        mRedactions.addAll(redactions);
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

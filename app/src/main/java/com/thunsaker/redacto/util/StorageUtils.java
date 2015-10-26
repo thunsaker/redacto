@@ -9,6 +9,8 @@ import java.util.Comparator;
 
 public class StorageUtils {
     private static String LOG_TAG = "StorageUtils";
+    public static String DIRECTORY_SCREENSHOTS = "Screenshots";
+    public static String DIRECTORY_REDACTIONS = "Redacto";
 
     public static boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
@@ -21,29 +23,15 @@ public class StorageUtils {
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }
 
-    public static File getScreenshotDirectory() {
+    public static File getFileDirectory(String name) {
         File file = new File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
-                "Screenshots");
+                name);
 
-        if(!file.mkdirs()) {
-            Log.e(LOG_TAG, "Directory not created");
+        if(!file.exists()) {
+            Log.e(LOG_TAG, "Directory does not exist");
         }
 
         return file;
-    }
-
-    public static File[] sortFilesByDateDescending(File[] files) {
-        if(files != null && files.length > 1) {
-            Arrays.sort(files, new Comparator<File>() {
-                @Override
-                public int compare(File file1, File file2) {
-                    return (int) ((file1.lastModified() > file2.lastModified())
-                            ? file1.lastModified()
-                            : file2.lastModified());
-                }
-            });
-        }
-        return files;
     }
 }

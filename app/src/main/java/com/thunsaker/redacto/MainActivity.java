@@ -3,6 +3,8 @@ package com.thunsaker.redacto;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,8 +20,10 @@ import com.thunsaker.redacto.util.StorageUtils;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.recyclerRedactions) RecyclerView mRecyclerView;
 
-    private RecyclerView.Adapter mRecyclerViewAdapter;
+    private RedactionsAdaptor mRecyclerViewAdapter;
     private GridLayoutManager mLayoutManager;
     private String LOG_TAG = "MainActivity";
 
@@ -57,20 +61,32 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager = new GridLayoutManager(this, 2);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        ArrayList<Redaction> mRedactionsList = getScreenshots();
+        refreshScreenshots();
+    }
+
+    private void refreshScreenshots() {
+        List<Redaction> mRedactionsList = getScreenshots();
 
         mRecyclerViewAdapter =
                 new RedactionsAdaptor(getApplicationContext(), mRedactionsList);
         mRecyclerViewAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
+        this.setProgressBarVisibility(false);
     }
 
-    private ArrayList<Redaction> getScreenshots() {
-        ArrayList<Redaction> mRedactionsList = new ArrayList<>();
+    private List<Redaction> getScreenshots() {
+        List<Redaction> mRedactionsList = new ArrayList<>();
         if(StorageUtils.isExternalStorageReadable()) {
-            File file = StorageUtils.getScreenshotDirectory();
+            File file = StorageUtils.getFileDirectory(StorageUtils.DIRECTORY_SCREENSHOTS);
             if(file != null) {
-                for (File f : StorageUtils.sortFilesByDateDescending(file.listFiles())) {
+                File[] files = file.listFiles();
+//                if(file.listFiles() != null && file.listFiles().length > 1) {
+//                    files = StorageUtils.sortFilesByDateDescending(file.listFiles());
+//                } else {
+//                    files = file.listFiles();
+//                }
+                Arrays.sort(files, Collections.reverseOrder());
+                for (File f : files) {
                     Redaction r = new Redaction();
                     r.ImageFile = f;
                     Date date = new Date();
@@ -83,24 +99,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        return mRedactionsList;
-    }
-
-    private ArrayList<Redaction> getScreenshotsDebug() {
-        ArrayList<Redaction> mRedactionsList = new ArrayList<>();
-        Redaction testRedaction;
-
-        for(int i = 0; i < 7; i++) {
-            testRedaction = new Redaction();
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.SECOND, -1 * (i * 86400));
-            testRedaction.DateCreated = calendar.getTime();
-            testRedaction.SourceUrl =
-                    i % 3 == 0
-                            ? "https://medium.com"
-                            : "https://theverge.com";
-            mRedactionsList.add(testRedaction);
-        }
         return mRedactionsList;
     }
 
@@ -118,5 +116,13 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mRecyclerViewAdapter.clear();
+        this.setProgressBarVisibility(true);
+        refreshScreenshots();
     }
 }
