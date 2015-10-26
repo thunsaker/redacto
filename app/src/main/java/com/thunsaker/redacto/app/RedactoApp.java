@@ -16,14 +16,9 @@ public class RedactoApp extends Application {
         component = DaggerRedactoAppComponent.builder()
                 .redactoAppModule(new RedactoAppModule(this))
                 .build();
-        component.inject(this);
     }
 
-    public RedactoAppComponent component() {
-        return component;
-    }
-
-    public static RedactoApp get(Context context) {
-        return (RedactoApp) context.getApplicationContext();
+    public static RedactoAppComponent getComponent(Context context) {
+        return ((RedactoApp) context.getApplicationContext()).component;
     }
 }

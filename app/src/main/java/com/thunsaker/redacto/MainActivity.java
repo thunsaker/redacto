@@ -1,19 +1,18 @@
 package com.thunsaker.redacto;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.thunsaker.redacto.app.RedactoApp;
 import com.thunsaker.redacto.models.Redaction;
 import com.thunsaker.redacto.util.StorageUtils;
 
@@ -21,7 +20,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,12 +30,14 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView.Adapter mRecyclerViewAdapter;
     private GridLayoutManager mLayoutManager;
-
-    Context mContext;
+    private String LOG_TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        RedactoApp.getComponent(this).inject(this);
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<Redaction> mRedactionsList = getScreenshots();
 
-        mContext = getApplicationContext();
-        mRecyclerViewAdapter = new RedactionsAdaptor(mContext, mRedactionsList);
+        mRecyclerViewAdapter =
+                new RedactionsAdaptor(getApplicationContext(), mRedactionsList);
         mRecyclerViewAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
     }
@@ -70,15 +70,14 @@ public class MainActivity extends AppCompatActivity {
         if(StorageUtils.isExternalStorageReadable()) {
             File file = StorageUtils.getScreenshotDirectory();
             if(file != null) {
-                for (File f : file.listFiles()) {
+                for (File f : StorageUtils.sortFilesByDateDescending(file.listFiles())) {
                     Redaction r = new Redaction();
                     r.ImageFile = f;
                     Date date = new Date();
                     date.setTime(f.lastModified());
-//                    Calendar cal = Calendar.getInstance();
-//                    cal.setTimeInMillis(f.lastModified());
                     r.DateCreated = date;
                     r.SourceUrl = "https://theverge.com";
+                    Log.i(LOG_TAG, "Redaction date " + date.toString());
                     mRedactionsList.add(r);
                 }
             }

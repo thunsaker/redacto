@@ -1,17 +1,27 @@
 package com.thunsaker.redacto.app;
 
+import android.app.Application;
+
+import com.squareup.picasso.Picasso;
+import com.thunsaker.redacto.MainActivity;
+import com.thunsaker.redacto.RedactionsAdaptor;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
 
-@Singleton
+@PerApp
 @Component(
         modules = {
                 RedactoAppModule.class
         }
 )
 public interface RedactoAppComponent {
-        void inject(RedactoApp app);
+        void inject(MainActivity mainActivity);
 
-        // Interactors and Managers
+        void inject(RedactionsAdaptor redactionsAdaptor);
+
+        Application application();
+
+        Picasso picasso();
 }

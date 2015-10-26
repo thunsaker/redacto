@@ -4,6 +4,8 @@ import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class StorageUtils {
     private static String LOG_TAG = "StorageUtils";
@@ -29,5 +31,19 @@ public class StorageUtils {
         }
 
         return file;
+    }
+
+    public static File[] sortFilesByDateDescending(File[] files) {
+        if(files != null && files.length > 1) {
+            Arrays.sort(files, new Comparator<File>() {
+                @Override
+                public int compare(File file1, File file2) {
+                    return (int) ((file1.lastModified() > file2.lastModified())
+                            ? file1.lastModified()
+                            : file2.lastModified());
+                }
+            });
+        }
+        return files;
     }
 }
