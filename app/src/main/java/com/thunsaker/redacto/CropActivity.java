@@ -1,6 +1,7 @@
 package com.thunsaker.redacto;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import javax.inject.Inject;
 
 public class CropActivity extends AppCompatActivity {
 
+    public static String EXTRA_SCREENSHOT_PATH = "EXTRA_SCREENSHOT_PATH";
     @Inject Picasso mPicasso;
 
     @Override
@@ -27,14 +29,16 @@ public class CropActivity extends AppCompatActivity {
 
         CropImageView cropImageView = (CropImageView) findViewById(R.id.cropImageView);
 
-        mPicasso.load(R.drawable.debug_screen)
-//                .resizeDimen(R.dimen.redacto_preview_width, R.dimen.redacto_preview_height)
-//                .resize(400,500)
-//                .centerInside()
-                .resize(1000,1000)
-                .centerInside()
-                .placeholder(R.drawable.redacto_placeholder)
-                .into(cropImageView);
+        if(getIntent().hasExtra(EXTRA_SCREENSHOT_PATH)) {
+            mPicasso.load("file:" + getIntent().getStringExtra(EXTRA_SCREENSHOT_PATH))
+                    .resize(1000, 1000)
+                    .centerInside()
+                    .placeholder(R.drawable.redacto_placeholder)
+                    .into(cropImageView);
+        } else {
+            Snackbar.make(toolbar, "No image selected! :(", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
     }
 
     @Override

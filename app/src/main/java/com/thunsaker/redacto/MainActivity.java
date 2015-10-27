@@ -1,5 +1,6 @@
 package com.thunsaker.redacto;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private GridLayoutManager mLayoutManager;
     private String LOG_TAG = "MainActivity";
 
+    public List<Redaction> mRedactions;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,10 +64,24 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         refreshScreenshots();
+
+        final ItemClickSupport itemClick = ItemClickSupport.addTo(mRecyclerView);
+
+        itemClick.setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                Redaction redaction = mRedactions.get(position);
+                Intent screenshotIntent =
+                        new Intent(getApplicationContext(), CropActivity.class);
+                screenshotIntent.putExtra(CropActivity.EXTRA_SCREENSHOT_PATH, redaction.ImageFile.getPath());
+                startActivity(screenshotIntent);
+            }
+        });
     }
 
     private void refreshScreenshots() {
         List<Redaction> mRedactionsList = getScreenshots();
+        mRedactions = mRedactionsList;
 
         mRecyclerViewAdapter =
                 new RedactionsAdaptor(getApplicationContext(), mRedactionsList);
