@@ -4,8 +4,6 @@ import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Comparator;
 
 public class StorageUtils {
     private static String LOG_TAG = "StorageUtils";
@@ -27,6 +25,13 @@ public class StorageUtils {
         File file = new File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
                 name);
+
+        // Try the pictures directory (this might be platform/manufacture specific)
+        if(file.listFiles() == null) {
+            file = new File(
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                    name);
+        }
 
         if(!file.exists()) {
             Log.e(LOG_TAG, "Directory does not exist");
