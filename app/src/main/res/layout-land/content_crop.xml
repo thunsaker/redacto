@@ -22,19 +22,19 @@
             android:id="@+id/imageButtonCropSquare"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:src="@drawable/crop_square_selector"
+            android:src="@drawable/ic_crop_square_grey600_36dp"
             android:layout_margin="@dimen/material_padding"
             android:contentDescription="@string/crop_square"
-            android:background="?attr/selectableItemBackgroundBorderless" />
+            android:background="?attr/selectableItemBackground" />
 
         <ImageButton
             android:id="@+id/imageButtonCropFree"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:src="@drawable/crop_free_selector"
+            android:src="@drawable/ic_crop_free_grey600_36dp"
             android:layout_margin="@dimen/material_padding"
             android:contentDescription="@string/crop_free"
-            android:background="?attr/selectableItemBackgroundBorderless" />
+            android:background="?attr/selectableItemBackground" />
 
         <!--<ImageButton-->
             <!--android:id="@+id/imageButtonCropPhone"-->
