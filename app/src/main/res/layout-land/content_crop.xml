@@ -9,12 +9,12 @@
     tools:context="com.thunsaker.redacto.CropActivity">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:padding="@dimen/material_padding"
-        android:paddingBottom="0dp"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:background="@null"
         android:gravity="center">
 
@@ -22,19 +22,19 @@
             android:id="@+id/imageButtonCropSquare"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:src="@drawable/ic_crop_square_grey600_36dp"
+            android:src="@drawable/crop_square_selector"
             android:layout_margin="@dimen/material_padding"
             android:contentDescription="@string/crop_square"
-            android:background="?attr/selectableItemBackground" />
+            android:background="?attr/selectableItemBackgroundBorderless" />
 
         <ImageButton
             android:id="@+id/imageButtonCropFree"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:src="@drawable/ic_crop_free_grey600_36dp"
+            android:src="@drawable/crop_free_selector"
             android:layout_margin="@dimen/material_padding"
             android:contentDescription="@string/crop_free"
-            android:background="?attr/selectableItemBackground" />
+            android:background="?attr/selectableItemBackgroundBorderless" />
 
         <!--<ImageButton-->
             <!--android:id="@+id/imageButtonCropPhone"-->
@@ -43,17 +43,17 @@
             <!--android:src="@drawable/ic_cellphone_grey600_36dp"-->
             <!--android:layout_margin="@dimen/material_padding"-->
             <!--android:contentDescription="@string/crop_phone"-->
-            <!--android:background="?attr/selectableItemBackground" />-->
+            <!--android:background="?attr/selectableItemBackgroundBorderless" />-->
     </LinearLayout>
 
     <com.isseiaoki.simplecropview.CropImageView
         android:id="@+id/cropImageView"
         xmlns:crop="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:padding="@dimen/material_padding_double"
-        android:layout_marginBottom="72dp"
-        android:background="@null"
+        android:layout_marginRight="64dp"
+        android:layout_marginEnd="64dp"
         crop:cropMode="ratio_free"
         crop:backgroundColor="@color/gray_light"
         crop:handleColor="@color/redacto_green"
@@ -61,7 +61,6 @@
         crop:overlayColor="@color/redacto_green_transparent"
         crop:frameColor="@color/redacto_green"
         crop:handleSize="8dp"
-        crop:initialFrameScale="1"
         crop:touchPadding="8dp"
         crop:handleShowMode="show_always"
         crop:guideShowMode="show_on_touch"

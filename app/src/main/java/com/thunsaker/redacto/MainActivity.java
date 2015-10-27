@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -96,11 +95,6 @@ public class MainActivity extends AppCompatActivity {
             File file = StorageUtils.getFileDirectory(StorageUtils.DIRECTORY_SCREENSHOTS);
             if(file != null) {
                 File[] files = file.listFiles();
-//                if(file.listFiles() != null && file.listFiles().length > 1) {
-//                    files = StorageUtils.sortFilesByDateDescending(file.listFiles());
-//                } else {
-//                    files = file.listFiles();
-//                }
                 Arrays.sort(files, Collections.reverseOrder());
                 for (File f : files) {
                     Redaction r = new Redaction();
@@ -108,8 +102,6 @@ public class MainActivity extends AppCompatActivity {
                     Date date = new Date();
                     date.setTime(f.lastModified());
                     r.DateCreated = date;
-                    r.SourceUrl = "https://theverge.com";
-                    Log.i(LOG_TAG, "Redaction date " + date.toString());
                     mRedactionsList.add(r);
                 }
             }

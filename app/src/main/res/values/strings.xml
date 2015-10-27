@@ -7,4 +7,7 @@
     <string name="redaction">Redaction</string>
     <string name="title_activity_crop">CropActivity</string>
     <string name="crop">Crop</string>
+    <string name="crop_free">Free Crop</string>
+    <string name="crop_square">Crop Square</string>
+    <string name="crop_phone">Crop to Phone Screen</string>
 </resources>

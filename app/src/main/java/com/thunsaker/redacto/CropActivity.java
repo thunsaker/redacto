@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 
 import com.isseiaoki.simplecropview.CropImageView;
 import com.squareup.picasso.Picasso;
@@ -13,15 +14,28 @@ import com.thunsaker.redacto.app.RedactoApp;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class CropActivity extends AppCompatActivity {
 
-    public static String EXTRA_SCREENSHOT_PATH = "EXTRA_SCREENSHOT_PATH";
     @Inject Picasso mPicasso;
+
+    @Bind(R.id.toolbar) Toolbar mToolbar;
+    @Bind(R.id.cropImageView) CropImageView mCropImageView;
+    @Bind(R.id.imageButtonCropFree) ImageButton mButtonCropFree;
+    @Bind(R.id.imageButtonCropSquare) ImageButton mButtonCropSquare;
+//    @Bind(R.id.imageButtonCropPhone) ImageButton mButtonCropPhone;
+
+    public static String EXTRA_SCREENSHOT_PATH = "EXTRA_SCREENSHOT_PATH";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crop);
+        ButterKnife.bind(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -60,4 +74,22 @@ public class CropActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @OnClick(R.id.imageButtonCropSquare)
+    public void CropSquareClick() {
+        mCropImageView.setCropMode(CropImageView.CropMode.RATIO_1_1);
+        mCropImageView.setInitialFrameScale(1);
+    }
+
+    @OnClick(R.id.imageButtonCropFree)
+    public void CropFreeClick() {
+        mCropImageView.setCropMode(CropImageView.CropMode.RATIO_FREE);
+        mCropImageView.setInitialFrameScale(1);
+    }
+
+//    @OnClick(R.id.imageButtonCropPhone)
+//    public void CropPhoneClick() {
+//        mCropImageView.setCropMode(CropImageView.CropMode.RATIO_FREE);
+//        mCropImageView.setInitialFrameScale(1);
+//    }
 }
