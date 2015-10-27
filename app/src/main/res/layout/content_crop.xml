@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_crop"
+    tools:context="com.thunsaker.redacto.CropActivity">
+
+    <com.isseiaoki.simplecropview.CropImageView
+        android:id="@+id/cropImageView"
+        xmlns:crop="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        crop:cropMode="ratio_free"
+        crop:backgroundColor="@color/gray_light"
+        crop:handleColor="@color/redacto_green"
+        crop:guideColor="@color/redacto_green"
+        crop:overlayColor="@color/redacto_green_transparent"
+        crop:frameColor="@color/redacto_green"
+        crop:handleSize="8dp"
+        crop:touchPadding="8dp"
+        crop:handleShowMode="show_always"
+        crop:guideShowMode="show_on_touch"
+        crop:minFrameSize="50dp"
+        crop:frameStrokeWeight="1dp"
+        crop:guideStrokeWeight="1dp" />
+
+</FrameLayout>
