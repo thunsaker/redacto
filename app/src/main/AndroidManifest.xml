@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.thunsaker.redacto" >
+          package="com.thunsaker.redacto" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -11,7 +11,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -25,10 +25,11 @@
         <activity
             android:name=".CropActivity"
             android:label="@string/title_activity_crop"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity android:name=".PreviewActivity" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".PreviewActivity"
+            android:label="@string/title_activity_preview"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

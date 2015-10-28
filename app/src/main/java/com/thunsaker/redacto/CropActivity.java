@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -27,7 +28,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class CropActivity extends AppCompatActivity {
-
     private static final String LOG_TAG = "CropActivity";
     @Inject Picasso mPicasso;
 
@@ -47,13 +47,18 @@ public class CropActivity extends AppCompatActivity {
 
         setSupportActionBar(mToolbar);
 
+        ActionBar ab = getSupportActionBar();
+        if(ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
+
         RedactoApp.getComponent(this).inject(this);
 
         CropImageView cropImageView = (CropImageView) findViewById(R.id.cropImageView);
 
         if(getIntent().hasExtra(EXTRA_SCREENSHOT_PATH)) {
             mPicasso.load("file:" + getIntent().getStringExtra(EXTRA_SCREENSHOT_PATH))
-                    .resize(1000, 1000)
+                    .resize(1760, 880)
                     .centerInside()
                     .placeholder(R.drawable.redacto_placeholder)
                     .into(cropImageView);
@@ -99,7 +104,7 @@ public class CropActivity extends AppCompatActivity {
             }
 
             return true;
-        } else if(id == R.id.action_crop_cancel) {
+        } else if(id == R.id.action_crop_cancel || id == android.R.id.home) {
             this.finish();
         }
         return super.onOptionsItemSelected(item);

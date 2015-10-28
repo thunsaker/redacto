@@ -72,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
                 Redaction redaction = mRedactions.get(position);
                 Intent screenshotIntent =
                         new Intent(getApplicationContext(), CropActivity.class);
-                screenshotIntent.putExtra(CropActivity.EXTRA_SCREENSHOT_PATH, redaction.ImageFile.getPath());
+                screenshotIntent.putExtra(
+                        CropActivity.EXTRA_SCREENSHOT_PATH, redaction.ImageFile.getPath());
                 startActivity(screenshotIntent);
             }
         });

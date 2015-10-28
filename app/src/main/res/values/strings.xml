@@ -10,4 +10,6 @@
     <string name="crop_free">Free Crop</string>
     <string name="crop_square">Crop Square</string>
     <string name="crop_phone">Crop to Phone Screen</string>
+    <string name="title_activity_preview">Preview</string>
+    <string name="action_download">Save to Device</string>
 </resources>
