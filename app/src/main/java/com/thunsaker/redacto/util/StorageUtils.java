@@ -4,11 +4,15 @@ import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FilenameFilter;
 
 public class StorageUtils {
     private static String LOG_TAG = "StorageUtils";
+
     public static String DIRECTORY_SCREENSHOTS = "Screenshots";
     public static String DIRECTORY_REDACTIONS = "Redacto";
+
+    public static final String CACHE_IMAGE_FILE = "redacto-cache-preview.jpg";
 
     public static boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
@@ -38,5 +42,12 @@ public class StorageUtils {
         }
 
         return file;
+    }
+
+    public static class CacheFileFilter implements FilenameFilter {
+        @Override
+        public boolean accept(File file, String fileName) {
+            return fileName.equals(CACHE_IMAGE_FILE);
+        }
     }
 }
