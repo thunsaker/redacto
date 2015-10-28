@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollViewPreview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_light"
     tools:context="com.thunsaker.redacto.PreviewActivity">
 
     <LinearLayout
@@ -35,8 +36,8 @@
             <!--android:layout_marginEnd="@dimen/material_keyline_1"-->
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:src="@drawable/redacto_placeholder"
                 android:layout_alignBottom="@+id/imageViewPreviewRedaction"
                 android:layout_alignLeft="@+id/imageViewPreviewRedaction"
@@ -48,9 +49,9 @@
 
         <com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider
             android:id="@+id/colorPickerPreview"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_gravity="center"
             android:layout_margin="@dimen/material_padding_double" />
     </LinearLayout>
 </ScrollView>

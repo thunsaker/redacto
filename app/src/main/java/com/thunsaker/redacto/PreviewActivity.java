@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 
 import com.larswerkman.lobsterpicker.OnColorListener;
 import com.larswerkman.lobsterpicker.adapters.BitmapColorAdapter;
@@ -27,6 +28,7 @@ public class PreviewActivity extends AppCompatActivity {
 
     @Bind(R.id.imageViewPreviewRedaction) ImageView mPreviewImage;
     @Bind(R.id.colorPickerPreview) LobsterShadeSlider mColorPicker;
+    @Bind(R.id.scrollViewPreview) ScrollView mScrollViewWrapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +50,21 @@ public class PreviewActivity extends AppCompatActivity {
         }
 
         mColorPicker.getColor();
-        mColorPicker.setColorAdapter(new BitmapColorAdapter(this, R.drawable.redacto_palette_picker));
+        mColorPicker.setColorAdapter(
+                new BitmapColorAdapter(this, R.drawable.redacto_palette_picker));
         mColorPicker.setShadePosition(5);
         mColorPicker.addOnColorListener(new OnColorListener() {
             @Override
             public void onColorChanged(int color) {
                 mPreviewImage.setBackgroundColor(color);
+                mScrollViewWrapper.setBackgroundColor(color);
             }
 
             @Override
             public void onColorSelected(int color) {
                 mPreviewImage.setBackgroundColor(color);
+                mScrollViewWrapper.setBackgroundColor(
+                        getResources().getColor(R.color.gray_light));
             }
         });
     }
