@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.larswerkman.lobsterpicker.OnColorListener;
+import com.larswerkman.lobsterpicker.adapters.BitmapColorAdapter;
+import com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider;
 import com.squareup.picasso.Picasso;
 import com.thunsaker.redacto.app.RedactoApp;
 import com.thunsaker.redacto.util.StorageUtils;
@@ -17,13 +20,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class PreviewActivity extends AppCompatActivity {
-
+    private String LOG_TAG = "PreviewActivity";
     public static String EXTRA_CROPPED_IMAGE = "EXTRA_CROPPED_IMAGE";
 
     @Inject Picasso mPicasso;
 
     @Bind(R.id.imageViewPreviewRedaction) ImageView mPreviewImage;
-    private String LOG_TAG = "PreviewActivity";
+    @Bind(R.id.colorPickerPreview) LobsterShadeSlider mColorPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,5 +46,20 @@ public class PreviewActivity extends AppCompatActivity {
                     .placeholder(R.drawable.redacto_placeholder_sm_light)
                     .into(mPreviewImage);
         }
+
+        mColorPicker.getColor();
+        mColorPicker.setColorAdapter(new BitmapColorAdapter(this, R.drawable.redacto_palette_picker));
+        mColorPicker.setShadePosition(5);
+        mColorPicker.addOnColorListener(new OnColorListener() {
+            @Override
+            public void onColorChanged(int color) {
+                mPreviewImage.setBackgroundColor(color);
+            }
+
+            @Override
+            public void onColorSelected(int color) {
+                mPreviewImage.setBackgroundColor(color);
+            }
+        });
     }
 }

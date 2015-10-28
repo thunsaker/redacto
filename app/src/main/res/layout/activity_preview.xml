@@ -1,39 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.thunsaker.redacto.PreviewActivity">
 
-    <ImageView
-        android:id="@+id/imageViewPreviewRedaction"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxHeight="800dp"
-        android:layout_centerHorizontal="true"
-        android:paddingTop="@dimen/material_padding"
-        android:paddingLeft="@dimen/material_padding"
-        android:paddingStart="@dimen/material_padding"
-        android:paddingRight="@dimen/material_padding"
-        android:paddingEnd="@dimen/material_padding"
-        android:paddingBottom="@dimen/material_padding_sextuple"
-        android:layout_marginTop="@dimen/material_padding"
-        android:layout_marginLeft="@dimen/material_keyline_1"
-        android:layout_marginStart="@dimen/material_keyline_1"
-        android:layout_marginRight="@dimen/material_keyline_1"
-        android:layout_marginEnd="@dimen/material_keyline_1"
-        android:layout_marginBottom="@dimen/material_padding"
-        android:scaleType="fitCenter"
-        android:background="@color/redacto_green" />
+        android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/redacto_placeholder"
-        android:layout_alignBottom="@+id/imageViewPreviewRedaction"
-        android:layout_alignLeft="@+id/imageViewPreviewRedaction"
-        android:layout_alignStart="@+id/imageViewPreviewRedaction"
-        android:tint="@color/white" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-</RelativeLayout>
+            <ImageView
+                android:id="@+id/imageViewPreviewRedaction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="@dimen/material_padding"
+                android:paddingLeft="@dimen/material_padding"
+                android:paddingStart="@dimen/material_padding"
+                android:paddingRight="@dimen/material_padding"
+                android:paddingEnd="@dimen/material_padding"
+                android:paddingBottom="@dimen/material_padding_sextuple"
+                android:scaleType="fitCenter"
+                android:background="@color/redacto_green" />
+
+            <!--android:layout_marginLeft="@dimen/material_keyline_1"-->
+            <!--android:layout_marginStart="@dimen/material_keyline_1"-->
+            <!--android:layout_marginRight="@dimen/material_keyline_1"-->
+            <!--android:layout_marginEnd="@dimen/material_keyline_1"-->
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/redacto_placeholder"
+                android:layout_alignBottom="@+id/imageViewPreviewRedaction"
+                android:layout_alignLeft="@+id/imageViewPreviewRedaction"
+                android:layout_alignStart="@+id/imageViewPreviewRedaction"
+                android:layout_marginBottom="@dimen/material_padding"
+                android:tint="@color/white" />
+
+        </RelativeLayout>
+
+        <com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider
+            android:id="@+id/colorPickerPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="@dimen/material_padding_double" />
+    </LinearLayout>
+</ScrollView>
