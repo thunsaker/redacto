@@ -1,6 +1,9 @@
 package com.thunsaker.redacto;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +17,11 @@ import com.larswerkman.lobsterpicker.OnColorListener;
 import com.larswerkman.lobsterpicker.adapters.BitmapColorAdapter;
 import com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.thunsaker.redacto.app.RedactoApp;
+import com.thunsaker.redacto.ocr.Loki;
+import com.thunsaker.redacto.ocr.TesseractResult;
+import com.thunsaker.redacto.ocr.TesseractUtils;
 import com.thunsaker.redacto.util.StorageUtils;
 
 import java.io.File;
@@ -62,7 +69,7 @@ public class PreviewActivity extends AppCompatActivity {
 //                    .transform(new MaskTransformation(
 //                            getApplicationContext(), R.drawable.crop_mask_slant))
                     .placeholder(R.drawable.redacto_placeholder_sm_light)
-                    .into(mPreviewImage);
+                    .into(mTarget);
         }
 
         mColorPicker.getColor();
@@ -85,6 +92,43 @@ public class PreviewActivity extends AppCompatActivity {
         });
     }
 
+    private void attemptImageOCR(Bitmap bitmap) {
+        // TODO: Init the OCR
+        File tessdataDirectory = TesseractUtils.getTessdataDirectory();
+        if(tessdataDirectory.listFiles(
+                new TesseractUtils.TessdataFileFilter()).length != 1) {
+            TesseractUtils.copyTessdataToDevice(getApplicationContext());
+            tessdataDirectory = TesseractUtils.getTessdataDirectory();
+        }
+
+        // TODO: Start the OCR here
+        if(tessdataDirectory.listFiles(
+                new TesseractUtils.TessdataFileFilter()).length > 0) {
+            Loki loki = new Loki(TesseractUtils.getTessdataParentDirectory());
+
+            try {
+                TesseractResult result =
+                        loki.getResultsFromOCR(bitmap);
+
+                if (result != null) {
+                    Log.i(LOG_TAG, "HUZZAH!!!!!");
+                    Log.i(LOG_TAG, result.text);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                Snackbar.make(mScrollViewWrapper,
+                        "There was an error scanning the image for text",
+                        Snackbar.LENGTH_LONG).show();
+            }
+        } else {
+            Snackbar.make(mScrollViewWrapper,
+                    "There was an error initializing the tesseract, " +
+                            "Contact S.H.I.E.L.D. immediately!",
+                    Snackbar.LENGTH_LONG).show();
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_preview, menu);
@@ -101,4 +145,25 @@ public class PreviewActivity extends AppCompatActivity {
 
         return true;
     }
+
+    private Target mTarget = new Target() {
+
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            mPreviewImage.setImageBitmap(bitmap);
+            attemptImageOCR(bitmap);
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+            Snackbar.make(mScrollViewWrapper,
+                    "There was an error scanning the image for text",
+                    Snackbar.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+        }
+    };
 }

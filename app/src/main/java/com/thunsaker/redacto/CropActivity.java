@@ -83,15 +83,14 @@ public class CropActivity extends AppCompatActivity {
             if(StorageUtils.isExternalStorageWritable()) {
                 File cacheFile = getCacheDir();
                 try {
-                    Log.i(LOG_TAG, "Total Mem: " + Runtime.getRuntime().totalMemory());
-                    Log.i(LOG_TAG, "Free Mem: " + Runtime.getRuntime().freeMemory());
                     File imageFile = new File(cacheFile, StorageUtils.CACHE_IMAGE_FILE);
                     FileOutputStream fileOutputStream = new FileOutputStream(imageFile);
                     if(mCropImageView.getCroppedBitmap()
-                            .compress(Bitmap.CompressFormat.PNG, 90, fileOutputStream)) {
+                            .compress(Bitmap.CompressFormat.JPEG, 90, fileOutputStream)) {
                         Log.i(LOG_TAG, "Everything went well");
-                        Log.i(LOG_TAG, "Total Mem: " + Runtime.getRuntime().totalMemory());
-                        Log.i(LOG_TAG, "Free Mem: " + Runtime.getRuntime().freeMemory());
+
+                        // TODO: Start the OCR here in the background
+
                         startActivity(new Intent(getApplicationContext(), PreviewActivity.class));
                     } else {
                         Snackbar.make(mCropImageView, "Image did not save :(", Snackbar.LENGTH_LONG)
