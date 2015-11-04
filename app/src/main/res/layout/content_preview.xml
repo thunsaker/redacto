@@ -7,50 +7,78 @@
     android:layout_height="match_parent"
     android:background="@color/gray_light"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_crop"
     tools:context="com.thunsaker.redacto.PreviewActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/linearLayoutPreviewRedactionWrapper"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/material_padding_double">
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:background="@color/redacto_green">
 
             <ImageView
                 android:id="@+id/imageViewPreviewRedaction"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:paddingTop="@dimen/material_padding"
-                android:paddingLeft="@dimen/material_padding"
-                android:paddingStart="@dimen/material_padding"
-                android:paddingRight="@dimen/material_padding"
-                android:paddingEnd="@dimen/material_padding"
-                android:paddingBottom="@dimen/material_padding_sextuple"
-                android:scaleType="fitCenter"
-                android:src="@drawable/debug_screen_crop"
-                android:background="@color/redacto_green" />
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/material_padding"
+                android:contentDescription="@string/redaction_preview"
+                android:adjustViewBounds="true"
+                android:background="@color/darken"
+                android:scaleType="center"
+                android:src="@drawable/redacto_placeholder" />
 
-            <!--android:layout_marginLeft="@dimen/material_keyline_1"-->
-            <!--android:layout_marginStart="@dimen/material_keyline_1"-->
-            <!--android:layout_marginRight="@dimen/material_keyline_1"-->
-            <!--android:layout_marginEnd="@dimen/material_keyline_1"-->
-
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/redacto_placeholder"
-                android:layout_alignBottom="@+id/imageViewPreviewRedaction"
-                android:layout_alignLeft="@+id/imageViewPreviewRedaction"
-                android:layout_alignStart="@+id/imageViewPreviewRedaction"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/material_padding"
+                android:layout_marginLeft="@dimen/material_keyline_1"
+                android:layout_marginStart="@dimen/material_keyline_1"
+                android:layout_marginRight="@dimen/material_keyline_1"
+                android:layout_marginEnd="@dimen/material_keyline_1"
                 android:layout_marginBottom="@dimen/material_padding"
-                android:tint="@color/white" />
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/redacto_placeholder"
+                    android:contentDescription="@string/redaction_crest"
+                    android:tint="@color/white" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minWidth="400dp"
+                    android:layout_marginTop="@dimen/material_padding"
+                    android:layout_marginBottom="@dimen/material_padding"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/textViewLinkTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/material_type_small"
+                        android:text="@string/text_title" />
+                    <TextView
+                        android:id="@+id/textViewLinkUrl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:textColor="@color/white_transparent"
+                        android:textSize="@dimen/material_type_micro"
+                        android:text="@string/text_url" />
+                </LinearLayout>
+            </LinearLayout>
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider
             android:id="@+id/colorPickerPreview"

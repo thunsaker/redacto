@@ -12,4 +12,8 @@
     <string name="crop_phone">Crop to Phone Screen</string>
     <string name="title_activity_preview">Preview</string>
     <string name="action_download">Save to Device</string>
+    <string name="redaction_preview">Redacto Preview</string>
+    <string name="redaction_crest">Redaction Crest</string>
+    <string name="text_title"/>
+    <string name="text_url"/>
 </resources>

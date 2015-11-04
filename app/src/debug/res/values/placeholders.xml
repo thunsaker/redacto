@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Redacto Debug</string>
+    <string name="text_title">Blah Blah Blah!</string>
+    <string name="text_url">https://medium.com/blah-blah-blah</string>
+</resources>

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.larswerkman.lobsterpicker.OnColorListener;
@@ -22,6 +23,7 @@ import com.thunsaker.redacto.app.RedactoApp;
 import com.thunsaker.redacto.ocr.Loki;
 import com.thunsaker.redacto.ocr.TesseractResult;
 import com.thunsaker.redacto.ocr.TesseractUtils;
+import com.thunsaker.redacto.util.DeviceDimensions;
 import com.thunsaker.redacto.util.StorageUtils;
 
 import java.io.File;
@@ -38,6 +40,7 @@ public class PreviewActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbarPreview) Toolbar mToolbar;
     @Bind(R.id.imageViewPreviewRedaction) ImageView mPreviewImage;
+    @Bind(R.id.linearLayoutPreviewRedactionWrapper) LinearLayout mPreviewImageWrapper;
     @Bind(R.id.colorPickerPreview) LobsterShadeSlider mColorPicker;
     @Bind(R.id.scrollViewPreview) ScrollView mScrollViewWrapper;
 
@@ -63,12 +66,16 @@ public class PreviewActivity extends AppCompatActivity {
             Log.i(LOG_TAG, "Total Mem: " + Runtime.getRuntime().totalMemory());
             Log.i(LOG_TAG, "Free Mem: " + Runtime.getRuntime().freeMemory());
             File[] cacheFiles = cacheFile.listFiles(new StorageUtils.CacheFileFilter());
+
+            int deviceWidth = DeviceDimensions.getDisplayWidth(getApplicationContext());
+            int deviceHeight = DeviceDimensions.getDisplayHeight(getApplicationContext());
+
             mPicasso.load("file:" + cacheFiles[0])
-                    .resize(1760, 880)
+                    .resize(deviceWidth, deviceHeight)
                     .centerInside()
 //                    .transform(new MaskTransformation(
 //                            getApplicationContext(), R.drawable.crop_mask_slant))
-                    .placeholder(R.drawable.redacto_placeholder_sm_light)
+//                    .placeholder(R.drawable.redacto_placeholder_sm_light)
                     .into(mTarget);
         }
 
@@ -79,13 +86,13 @@ public class PreviewActivity extends AppCompatActivity {
         mColorPicker.addOnColorListener(new OnColorListener() {
             @Override
             public void onColorChanged(int color) {
-                mPreviewImage.setBackgroundColor(color);
+                mPreviewImageWrapper.setBackgroundColor(color);
                 mScrollViewWrapper.setBackgroundColor(color);
             }
 
             @Override
             public void onColorSelected(int color) {
-                mPreviewImage.setBackgroundColor(color);
+                mPreviewImageWrapper.setBackgroundColor(color);
                 mScrollViewWrapper.setBackgroundColor(
                         getResources().getColor(R.color.gray_light));
             }
@@ -111,8 +118,7 @@ public class PreviewActivity extends AppCompatActivity {
                         loki.getResultsFromOCR(bitmap);
 
                 if (result != null) {
-                    Log.i(LOG_TAG, "HUZZAH!!!!!");
-                    Log.i(LOG_TAG, result.text);
+                    Log.i(LOG_TAG, "OCR'd Text: " + result.text);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
