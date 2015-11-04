@@ -1,7 +1,10 @@
 package com.thunsaker.redacto;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -127,6 +130,18 @@ public class PreviewActivity extends AppCompatActivity {
                     Log.i(LOG_TAG, "OCR'd Text: " + result.text);
                     mText = result.text;
                     mTextLines = result.textLines;
+
+                    Canvas tempCanvas = new Canvas(bitmap);
+                    tempCanvas.drawBitmap(bitmap, 0, 0, null);
+
+                    Paint blackPaint = new Paint();
+                    blackPaint.setColor(getResources().getColor(R.color.black_transparent));
+                    ArrayList<Rect> rects = mTextLines.getBoxRects();
+                    for (Rect r : rects) {
+                        tempCanvas.drawRect(r, blackPaint);
+                    }
+
+                    mPreviewImage.setImageDrawable(new BitmapDrawable(getResources(), bitmap));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

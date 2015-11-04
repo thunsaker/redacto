@@ -29,6 +29,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/material_padding"
+                android:paddingTop="@dimen/material_padding_half"
+                android:paddingBottom="@dimen/material_padding"
                 android:contentDescription="@string/redaction_preview"
                 android:adjustViewBounds="true"
                 android:background="@color/darken"
