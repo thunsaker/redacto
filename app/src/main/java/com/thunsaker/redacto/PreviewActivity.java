@@ -1,6 +1,7 @@
 package com.thunsaker.redacto;
 
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import com.googlecode.leptonica.android.Pixa;
 import com.larswerkman.lobsterpicker.OnColorListener;
 import com.larswerkman.lobsterpicker.adapters.BitmapColorAdapter;
 import com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider;
@@ -27,6 +29,7 @@ import com.thunsaker.redacto.util.DeviceDimensions;
 import com.thunsaker.redacto.util.StorageUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -45,6 +48,9 @@ public class PreviewActivity extends AppCompatActivity {
     @Bind(R.id.scrollViewPreview) ScrollView mScrollViewWrapper;
 
     public static String EXTRA_CROPPED_IMAGE = "EXTRA_CROPPED_IMAGE";
+
+    public String mText = "";
+    public Pixa mTextLines;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +125,8 @@ public class PreviewActivity extends AppCompatActivity {
 
                 if (result != null) {
                     Log.i(LOG_TAG, "OCR'd Text: " + result.text);
+                    mText = result.text;
+                    mTextLines = result.textLines;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
