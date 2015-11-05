@@ -14,7 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
@@ -30,9 +31,11 @@ import com.thunsaker.redacto.ocr.TesseractResult;
 import com.thunsaker.redacto.ocr.TesseractUtils;
 import com.thunsaker.redacto.util.DeviceDimensions;
 import com.thunsaker.redacto.util.StorageUtils;
+import com.thunsaker.redacto.widget.HighlightableImageView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -45,7 +48,7 @@ public class PreviewActivity extends AppCompatActivity {
     @Inject Picasso mPicasso;
 
     @Bind(R.id.toolbarPreview) Toolbar mToolbar;
-    @Bind(R.id.imageViewPreviewRedaction) ImageView mPreviewImage;
+    @Bind(R.id.imageViewPreviewRedaction) HighlightableImageView mPreviewImage;
     @Bind(R.id.linearLayoutPreviewRedactionWrapper) LinearLayout mPreviewImageWrapper;
     @Bind(R.id.colorPickerPreview) LobsterShadeSlider mColorPicker;
     @Bind(R.id.scrollViewPreview) ScrollView mScrollViewWrapper;
@@ -54,6 +57,8 @@ public class PreviewActivity extends AppCompatActivity {
 
     public String mText = "";
     public Pixa mTextLines;
+    public Pixa mTextWords;
+    public ArrayList<Rect> mTextLinesBoxRects;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +111,25 @@ public class PreviewActivity extends AppCompatActivity {
                         getResources().getColor(R.color.gray_light));
             }
         });
+
+        mPreviewImage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                float x = motionEvent.getX();
+                float y = motionEvent.getY();
+
+                List<Rect> rects = new ArrayList<>();
+                rects.add(new Rect((int) x, (int) y, 150, 20));
+
+                mPreviewImage.AddHighlight(rects,
+                        getResources().getColor(R.color.orange_transparent));
+
+                Log.i(LOG_TAG, "Touched: (" + x + "," + y + ")");
+                mPreviewImage.postInvalidate();
+
+                return true;
+            }
+        });
     }
 
     private void attemptImageOCR(Bitmap bitmap) {
@@ -129,15 +153,31 @@ public class PreviewActivity extends AppCompatActivity {
                 if (result != null) {
                     Log.i(LOG_TAG, "OCR'd Text: " + result.text);
                     mText = result.text;
-                    mTextLines = result.textLines;
+                    mTextLines = result.lines;
+                    mTextWords = result.words;
 
                     Canvas tempCanvas = new Canvas(bitmap);
                     tempCanvas.drawBitmap(bitmap, 0, 0, null);
 
+                    // Paint Redaction Lines
                     Paint blackPaint = new Paint();
+                    blackPaint.setColor(getResources().getColor(R.color.orange_transparent));
+
+                    int offset = 0;
+                    for (Rect r : mTextLines.getBoxRects()) {
+                        r.offsetTo(r.left - offset, r.top - offset);
+                        r.right = r.right + (offset*2);
+                        r.bottom = r.bottom + (offset*2);
+                        tempCanvas.drawRect(r, blackPaint);
+                    }
+
+                    offset = 20;
                     blackPaint.setColor(getResources().getColor(R.color.black_transparent));
-                    ArrayList<Rect> rects = mTextLines.getBoxRects();
-                    for (Rect r : rects) {
+                    blackPaint.setStyle(Paint.Style.STROKE);
+                    for (Rect r : mTextWords.getBoxRects()) {
+                        r.offsetTo(r.left - offset, r.top - offset);
+                        r.right = r.right + (offset*2);
+                        r.bottom = r.bottom + (offset*2);
                         tempCanvas.drawRect(r, blackPaint);
                     }
 
@@ -195,4 +235,13 @@ public class PreviewActivity extends AppCompatActivity {
 
         }
     };
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mTextLines != null)
+            mTextLines.recycle();
+        if(mTextWords != null)
+            mTextWords.recycle();
+    }
 }

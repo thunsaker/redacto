@@ -6,6 +6,7 @@
 
     <color name="gray_transparent">#aae2e2e2</color>
     <color name="orange">#ffff9800</color>
+    <color name="orange_transparent">#aaff9800</color>
     <color name="white">#ffffffff</color>
     <color name="gray_light">#ffeeeeee</color>
 
@@ -13,6 +14,7 @@
     <color name="redacto_green_transparent">#554caf50</color>
     <color name="redacto_green_dark">#ff265c29</color>
     <color name="redacto_black">#ff2e2e2e</color>
+
     <color name="black_transparent">#cc000000</color>
     <color name="white_transparent">#ccffffff</color>
     <color name="darken">#33000000</color>

@@ -23,7 +23,7 @@
             android:orientation="vertical"
             android:background="@color/redacto_green">
 
-            <ImageView
+            <com.thunsaker.redacto.widget.HighlightableImageView
                 android:id="@+id/imageViewPreviewRedaction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -35,6 +35,7 @@
                 android:adjustViewBounds="true"
                 android:background="@color/darken"
                 android:scaleType="center"
+                android:focusableInTouchMode="true"
                 android:src="@drawable/redacto_placeholder" />
 
             <LinearLayout

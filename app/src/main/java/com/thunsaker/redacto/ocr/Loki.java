@@ -24,7 +24,9 @@ public class Loki {
             TesseractResult tessResult = new TesseractResult();
             tessResult.text = mTessBaseApi.getUTF8Text();
             tessResult.regions = mTessBaseApi.getRegions();
-            tessResult.textLines = mTessBaseApi.getTextlines();
+            tessResult.lines = mTessBaseApi.getTextlines();
+            tessResult.words = mTessBaseApi.getWords();
+            mTessBaseApi.end();
 
             return tessResult;
         } else {
