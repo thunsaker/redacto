@@ -42,7 +42,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class PreviewActivity extends AppCompatActivity {
+public class PreviewActivity extends AppCompatActivity implements  HighlightableImageView.OnTouchListener {
     private String LOG_TAG = "PreviewActivity";
 
     @Inject Picasso mPicasso;
@@ -84,6 +84,7 @@ public class PreviewActivity extends AppCompatActivity {
             int deviceWidth = DeviceDimensions.getDisplayWidth(getApplicationContext());
             int deviceHeight = DeviceDimensions.getDisplayHeight(getApplicationContext());
 
+            // TODO: Consider putting a spinner here while the OCR does it's thing. I'm goingt o move the OCR into the background so maybe I don't need to do anything else here.
             mPicasso.load("file:" + cacheFiles[0])
                     .resize(deviceWidth, deviceHeight)
                     .centerInside()
@@ -112,28 +113,11 @@ public class PreviewActivity extends AppCompatActivity {
             }
         });
 
-        mPreviewImage.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                float x = motionEvent.getX();
-                float y = motionEvent.getY();
-
-                List<Rect> rects = new ArrayList<>();
-                rects.add(new Rect((int) x, (int) y, 150, 20));
-
-                mPreviewImage.AddHighlight(rects,
-                        getResources().getColor(R.color.orange_transparent));
-
-                Log.i(LOG_TAG, "Touched: (" + x + "," + y + ")");
-                mPreviewImage.postInvalidate();
-
-                return true;
-            }
-        });
+        mPreviewImage.setOnTouchListener(this);
     }
 
+    // TODO: Make this an async task so the user can continue selecting color, then highlight afterwards
     private void attemptImageOCR(Bitmap bitmap) {
-        // TODO: Init the OCR
         File tessdataDirectory = TesseractUtils.getTessdataDirectory();
         if(tessdataDirectory.listFiles(
                 new TesseractUtils.TessdataFileFilter()).length != 1) {
@@ -141,7 +125,6 @@ public class PreviewActivity extends AppCompatActivity {
             tessdataDirectory = TesseractUtils.getTessdataDirectory();
         }
 
-        // TODO: Start the OCR here
         if(tessdataDirectory.listFiles(
                 new TesseractUtils.TessdataFileFilter()).length > 0) {
             Loki loki = new Loki(TesseractUtils.getTessdataParentDirectory());
@@ -159,19 +142,10 @@ public class PreviewActivity extends AppCompatActivity {
                     Canvas tempCanvas = new Canvas(bitmap);
                     tempCanvas.drawBitmap(bitmap, 0, 0, null);
 
-                    // Paint Redaction Lines
+                    // Paint Redaction Outlines
                     Paint blackPaint = new Paint();
-                    blackPaint.setColor(getResources().getColor(R.color.orange_transparent));
 
-                    int offset = 0;
-                    for (Rect r : mTextLines.getBoxRects()) {
-                        r.offsetTo(r.left - offset, r.top - offset);
-                        r.right = r.right + (offset*2);
-                        r.bottom = r.bottom + (offset*2);
-                        tempCanvas.drawRect(r, blackPaint);
-                    }
-
-                    offset = 20;
+                    int offset = 20;
                     blackPaint.setColor(getResources().getColor(R.color.black_transparent));
                     blackPaint.setStyle(Paint.Style.STROKE);
                     for (Rect r : mTextWords.getBoxRects()) {
@@ -243,5 +217,19 @@ public class PreviewActivity extends AppCompatActivity {
             mTextLines.recycle();
         if(mTextWords != null)
             mTextWords.recycle();
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        float x = motionEvent.getX();
+        float y = motionEvent.getY();
+
+        List<Rect> rects = new ArrayList<>();
+        rects.add(new Rect((int) x, (int) y, (int) (x + 50), (int) (y + 100)));
+
+        mPreviewImage.AddHighlight(rects,
+                getResources().getColor(R.color.black_transparent));
+        mPreviewImage.postInvalidate();
+        return true;
     }
 }
